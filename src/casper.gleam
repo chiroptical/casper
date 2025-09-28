@@ -1,7 +1,9 @@
 @external(erlang, "casper_ffi", "encrypt_internal")
+@external(javascript, "./casper_ffi.mjs", "encrypt_internal")
 fn encrypt_internal(input: BitArray, key: BitArray) -> BitArray
 
 @external(erlang, "casper_ffi", "encrypt_with_internal")
+@external(javascript, "./casper_ffi.mjs", "encrypt_with_internal")
 fn encrypt_with_internal(
   input: BitArray,
   associated_data: BitArray,
@@ -9,9 +11,11 @@ fn encrypt_with_internal(
 ) -> BitArray
 
 @external(erlang, "casper_ffi", "decrypt_internal")
+@external(javascript, "./casper_ffi.mjs", "decrypt_internal")
 fn decrypt_internal(input: BitArray, key: BitArray) -> Result(BitArray, Nil)
 
 @external(erlang, "casper_ffi", "decrypt_with_internal")
+@external(javascript, "./casper_ffi.mjs", "decrypt_with_internal")
 fn decrypt_with_internal(
   input: BitArray,
   associated_data: BitArray,

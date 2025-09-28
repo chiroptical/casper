@@ -1,5 +1,7 @@
 name = "casper"
 version = "1.0.0"
+description = "Basic encryption via ChaCha20-Poly1305 in Gleam"
+licences = ["Apache-2.0"]
 
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
