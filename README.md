@@ -3,7 +3,7 @@
 [![Package Version](https://img.shields.io/hexpm/v/casper)](https://hex.pm/packages/casper)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/casper/)
 
-Casper is an opinionated encryption library which offers
+Casper is an opinionated symmetric cipher library which offers
 [ChaCha20-Poly1305][chacha20-poly1305] via [Erlang][erlang-crypto] or
 [Node][node-crypto]. Note: the `javascript` target will not work in a browser
 environment.
