@@ -3,14 +3,30 @@
 [![Package Version](https://img.shields.io/hexpm/v/casper)](https://hex.pm/packages/casper)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/casper/)
 
+Casper is an opinionated encryption library which offers
+[ChaCha20-Poly1305][chacha20-poly1305] via [Erlang][erlang-crypto] or
+[Node][node-crypto]. Note: the `javascript` target will not work in a browser
+environment.
+
 ```sh
 gleam add casper@1
 ```
+
 ```gleam
 import casper
+import gleam/crypto
 
 pub fn main() -> Nil {
-  // TODO: An example of the project in use
+  // Generate a 32 byte encryption key
+  let key = crypto.strong_random_bytes(32)
+
+  // This will fail if the key isn't the right size, i.e. 32 bytes
+  let assert Ok(encrypted) = casper.encrypt(<<"casper">>, key)
+
+  // This can fail if the encrypted content isn't in the right format
+  let assert Ok(decryted) = casper.decrypt(encrypted, key)
+
+  // ...
 }
 ```
 
@@ -20,5 +36,10 @@ Further documentation can be found at <https://hexdocs.pm/casper>.
 
 ```sh
 gleam run   # Run the project
-gleam test  # Run the tests
+gleam test  # Run the tests on Erlang
+gleam test -t javascript # Run the tests on Node
 ```
+
+[chacha20-poly1305]: https://en.wikipedia.org/wiki/ChaCha20-Poly1305
+[erlang-crypto]: https://www.erlang.org/doc/apps/crypto/crypto.html
+[node-crypto]: https://nodejs.org/api/crypto.html
