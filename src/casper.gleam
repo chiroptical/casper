@@ -2,7 +2,7 @@
 //// libraries. The "with" variants allow you to add additional authenticated
 //// data AAD which is required for encryption and decryption.
 
-/// Generate a 32 byte encryption key
+/// Generate 32 random bytes for use in the ChaCha20-Poly1305 cipher.
 @external(erlang, "casper_ffi", "generate_key")
 @external(javascript, "./casper_ffi.mjs", "generate_key")
 pub fn generate_key() -> BitArray
