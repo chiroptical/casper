@@ -40,7 +40,10 @@ fn decrypt_with_internal(
 ///
 /// The javascript target uses Node's crypto library and will not work on the
 /// web.
-pub fn encrypt(input: BitArray, key: BitArray) -> Result(BitArray, Nil) {
+pub fn encrypt(
+  value input: BitArray,
+  with key: BitArray,
+) -> Result(BitArray, Nil) {
   case key {
     <<encryption_key:bytes-size(32)>> -> {
       Ok(encrypt_internal(input, encryption_key))
@@ -52,9 +55,9 @@ pub fn encrypt(input: BitArray, key: BitArray) -> Result(BitArray, Nil) {
 /// See `encrypt`. This method additionally accepts additional authenticated
 /// data.
 pub fn encrypt_with(
-  input: BitArray,
-  associated_data: BitArray,
-  key: BitArray,
+  value input: BitArray,
+  associated associated_data: BitArray,
+  with key: BitArray,
 ) -> Result(BitArray, Nil) {
   case key {
     <<encryption_key:bytes-size(32)>> -> {
@@ -72,7 +75,7 @@ pub fn encrypt_with(
 ///
 /// The javascript target uses Node's crypto library and will not work on the
 /// web.
-pub fn decrypt(input: BitArray, key: BitArray) -> Result(BitArray, Nil) {
+pub fn decrypt(input: BitArray, with key: BitArray) -> Result(BitArray, Nil) {
   decrypt_internal(input, key)
 }
 
@@ -80,8 +83,8 @@ pub fn decrypt(input: BitArray, key: BitArray) -> Result(BitArray, Nil) {
 /// data.
 pub fn decrypt_with(
   input: BitArray,
-  associated_data: BitArray,
-  key: BitArray,
+  associated associated_data: BitArray,
+  with key: BitArray,
 ) -> Result(BitArray, Nil) {
   decrypt_with_internal(input, associated_data, key)
 }
