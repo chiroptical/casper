@@ -31,7 +31,7 @@ fn decrypt_with_internal(
   key: BitArray,
 ) -> Result(BitArray, Nil)
 
-/// Given a `BitArray` and a 32 byte encryption key, generated via
+/// Given a `BitArray` message and a 32 byte encryption key, generated via
 /// `gleam/crypto` `strong_random_bytes` method, encrypt the input via
 /// ChaCha20-Poly1305. The output `BitArray` is encoded especially for this
 /// cipher.
@@ -41,8 +41,8 @@ fn decrypt_with_internal(
 /// The javascript target uses Node's crypto library and will not work on the
 /// web.
 pub fn encrypt(
-  value input: BitArray,
-  with key: BitArray,
+  message input: BitArray,
+  key key: BitArray,
 ) -> Result(BitArray, Nil) {
   case key {
     <<encryption_key:bytes-size(32)>> -> {
@@ -52,12 +52,12 @@ pub fn encrypt(
   }
 }
 
-/// See `encrypt`. This method additionally accepts additional authenticated
-/// data.
+/// See `encrypt`. This method adds additional authenticated data to encrypt
+/// the message.
 pub fn encrypt_with(
-  value input: BitArray,
-  associated associated_data: BitArray,
-  with key: BitArray,
+  message input: BitArray,
+  associated_data associated_data: BitArray,
+  key key: BitArray,
 ) -> Result(BitArray, Nil) {
   case key {
     <<encryption_key:bytes-size(32)>> -> {
@@ -67,24 +67,27 @@ pub fn encrypt_with(
   }
 }
 
-/// Given a `BitArray` (the output from `encrypt`) and a 32 byte encryption key
-/// attempt to decrypt the input.
+/// Given a `BitArray` message (the output from `encrypt`) and a 32 byte
+/// encryption key attempt to decrypt the input.
 ///
 /// This method will return `Error(Nil)` if it is unable to decrypt the input.
 /// This will happen if you don't call `encrypt` first.
 ///
 /// The javascript target uses Node's crypto library and will not work on the
 /// web.
-pub fn decrypt(input: BitArray, with key: BitArray) -> Result(BitArray, Nil) {
+pub fn decrypt(
+  message input: BitArray,
+  key key: BitArray,
+) -> Result(BitArray, Nil) {
   decrypt_internal(input, key)
 }
 
-/// See `decrypt`. This method additionally accepts additional authenticated
-/// data.
+/// See `decrypt`. This method adds additional authenticated data to decrypt
+/// the message.
 pub fn decrypt_with(
-  input: BitArray,
-  associated associated_data: BitArray,
-  with key: BitArray,
+  message input: BitArray,
+  associated_data associated_data: BitArray,
+  key key: BitArray,
 ) -> Result(BitArray, Nil) {
   decrypt_with_internal(input, associated_data, key)
 }
