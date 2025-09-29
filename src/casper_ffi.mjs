@@ -5,7 +5,11 @@ import * as crypto from "node:crypto";
 function strongRandomBytes(n) {
   return crypto.randomBytes(n);
 }
-                                                                            
+
+export function generate_key() {
+  return new BitArray(crypto.randomBytes(32));
+}
+
 export function encrypt_internal(input, key) {
   const iv = strongRandomBytes(12);
   const cipher = crypto.createCipheriv('chacha20-poly1305', key.rawBuffer, iv);

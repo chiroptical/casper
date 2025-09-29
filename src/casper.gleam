@@ -2,6 +2,11 @@
 //// libraries. The "with" variants allow you to add additional authenticated
 //// data AAD which is required for encryption and decryption.
 
+/// Generate a 32 byte encryption key
+@external(erlang, "casper_ffi", "generate_key")
+@external(javascript, "./casper_ffi.mjs", "generate_key")
+pub fn generate_key() -> BitArray
+
 @external(erlang, "casper_ffi", "encrypt_internal")
 @external(javascript, "./casper_ffi.mjs", "encrypt_internal")
 fn encrypt_internal(input: BitArray, key: BitArray) -> BitArray
