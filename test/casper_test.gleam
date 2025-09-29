@@ -9,7 +9,7 @@ pub fn main() -> Nil {
 
 pub fn basic_roundtrip_no_associated_data_test() {
   let input = <<"casper test">>
-  let key = crypto.strong_random_bytes(32)
+  let key = casper.generate_key()
 
   let encrypted =
     casper.encrypt(input, key)
@@ -26,7 +26,7 @@ pub fn basic_roundtrip_no_associated_data_test() {
 pub fn basic_roundtrip_with_associated_data_test() {
   let input = <<"casper test">>
   let associated = <<"casper associated">>
-  let key = crypto.strong_random_bytes(32)
+  let key = casper.generate_key()
 
   let encrypted =
     casper.encrypt_with(input, associated, key)
@@ -43,7 +43,7 @@ pub fn basic_roundtrip_with_associated_data_test() {
 pub fn fails_when_decrypt_associated_data_differs_test() {
   let input = <<"casper test">>
   let associated = <<"casper associated">>
-  let key = crypto.strong_random_bytes(32)
+  let key = casper.generate_key()
 
   let encrypted =
     casper.encrypt_with(input, associated, key)

@@ -14,11 +14,10 @@ gleam add casper@1
 
 ```gleam
 import casper
-import gleam/crypto
 
 pub fn main() -> Nil {
   // Generate a 32 byte encryption key
-  let key = crypto.strong_random_bytes(32)
+  let key = casper.generate_key()
 
   // This will fail if the key isn't the right size, i.e. 32 bytes
   let assert Ok(encrypted) = casper.encrypt(<<"casper">>, key)
