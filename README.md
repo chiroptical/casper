@@ -5,26 +5,21 @@
 
 Casper is an opinionated symmetric cipher library which offers
 [ChaCha20-Poly1305][chacha20-poly1305] via [Erlang][erlang-crypto] or
-[Node][node-crypto]. Note: the `javascript` target will not work in a browser
-environment.
+[Node][node-crypto].
 
+Note: the `javascript` target will not work in a browser environment. The `bun`
+and `deno` runtimes are not supported.
 ```sh
-gleam add casper@1
+gleam add casper@2
 ```
 
 ```gleam
 import casper
 
 pub fn main() -> Nil {
-  // Generate a 32 byte encryption key
-  let key = casper.generate_key()
-
-  // This will fail if the key isn't the right size, i.e. 32 bytes
-  let assert Ok(encrypted) = casper.encrypt(<<"casper">>, key)
-
-  // This can fail if the encrypted content isn't in the right format
-  let assert Ok(decryted) = casper.decrypt(encrypted, key)
-
+  let key = casper.new_key()
+  let encrypted = casper.encrypt(<<"casper">>, key)
+  let assert Ok(decrypted) = casper.decrypt(encrypted, key)
   // ...
 }
 ```
