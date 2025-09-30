@@ -26,13 +26,13 @@ export function encrypt_with_internal(input, associatedData, key) {
 }
 
 export function decrypt_internal(input, key) {
-  const iv = Buffer.copyBytesFrom(input.rawBuffer, 0, 12);
-  const tag = Buffer.copyBytesFrom(input.rawBuffer, 12, 16);
-  const encrypted = Buffer.copyBytesFrom(input.rawBuffer, 28);
-  const decipher = crypto.createDecipheriv('chacha20-poly1305', key.rawBuffer, iv);
-  decipher.setAuthTag(tag);
-  let decrypted = decipher.update(encrypted);
   try {
+    const iv = Buffer.copyBytesFrom(input.rawBuffer, 0, 12);
+    const tag = Buffer.copyBytesFrom(input.rawBuffer, 12, 16);
+    const encrypted = Buffer.copyBytesFrom(input.rawBuffer, 28);
+    const decipher = crypto.createDecipheriv('chacha20-poly1305', key.rawBuffer, iv);
+    decipher.setAuthTag(tag);
+    let decrypted = decipher.update(encrypted);
     decipher.final();
     return new Ok(new BitArray(decrypted));
   } catch {
@@ -41,14 +41,14 @@ export function decrypt_internal(input, key) {
 }
 
 export function decrypt_with_internal(input, associatedData, key) {
-  const iv = Buffer.copyBytesFrom(input.rawBuffer, 0, 12);
-  const tag = Buffer.copyBytesFrom(input.rawBuffer, 12, 16);
-  const encrypted = Buffer.copyBytesFrom(input.rawBuffer, 28);
-  const decipher = crypto.createDecipheriv('chacha20-poly1305', key.rawBuffer, iv);
-  decipher.setAuthTag(tag);
-  decipher.setAAD(associatedData.rawBuffer);
-  let decrypted = decipher.update(encrypted);
   try {
+    const iv = Buffer.copyBytesFrom(input.rawBuffer, 0, 12);
+    const tag = Buffer.copyBytesFrom(input.rawBuffer, 12, 16);
+    const encrypted = Buffer.copyBytesFrom(input.rawBuffer, 28);
+    const decipher = crypto.createDecipheriv('chacha20-poly1305', key.rawBuffer, iv);
+    decipher.setAuthTag(tag);
+    decipher.setAAD(associatedData.rawBuffer);
+    let decrypted = decipher.update(encrypted);
     decipher.final();
     return new Ok(new BitArray(decrypted));
   } catch {

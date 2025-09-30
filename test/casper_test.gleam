@@ -49,6 +49,13 @@ pub fn fails_when_decrypt_associated_data_differs_test() {
   |> should.be_error
 }
 
+pub fn fails_to_decrypt_improper_message_test() {
+  let input = <<>>
+  let key = casper.new_key()
+  casper.decrypt(input, key)
+  |> should.be_error
+}
+
 pub fn fails_when_key_is_too_small_test() {
   casper.from_bytes(<<"1">>)
   |> should.be_error
