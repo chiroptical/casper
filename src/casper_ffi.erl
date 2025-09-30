@@ -27,7 +27,9 @@ decrypt_internal(<<Iv:12/binary, Tag:16/binary, Encrypted/binary>>, Key) ->
         error -> {error, nil};
         {error, _, _} -> {error, nil};
         Decrypt -> {ok, Decrypt}
-    end.
+    end;
+decrypt_internal(_InvalidInput, _Key) ->
+    {error, nil}.
 
 encrypt_with_internal(Value, AssociatedData, Key) ->
     Iv = crypto:strong_rand_bytes(12),
