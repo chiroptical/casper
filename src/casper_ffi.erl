@@ -1,15 +1,15 @@
 -module(casper_ffi).
 
 -export([
-    generate_key/0,
+    strong_random_bytes/1,
     encrypt_internal/2,
     decrypt_internal/2,
     encrypt_with_internal/3,
     decrypt_with_internal/3
 ]).
 
-generate_key() ->
-    crypto:strong_rand_bytes(32).
+strong_random_bytes(N) ->
+    crypto:strong_rand_bytes(N).
 
 encrypt_internal(Value, Key) ->
     Iv = crypto:strong_rand_bytes(12),

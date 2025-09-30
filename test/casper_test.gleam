@@ -1,5 +1,4 @@
 import casper
-import gleam/crypto
 import gleeunit
 import gleeunit/should
 
@@ -9,11 +8,9 @@ pub fn main() -> Nil {
 
 pub fn basic_roundtrip_no_associated_data_test() {
   let input = <<"casper test">>
-  let key = casper.generate_key()
+  let key = casper.new_key()
 
-  let encrypted =
-    casper.encrypt(input, key)
-    |> should.be_ok
+  let encrypted = casper.encrypt(input, key)
 
   let decrypted =
     casper.decrypt(encrypted, key)
@@ -26,11 +23,9 @@ pub fn basic_roundtrip_no_associated_data_test() {
 pub fn basic_roundtrip_with_associated_data_test() {
   let input = <<"casper test">>
   let associated = <<"casper associated">>
-  let key = casper.generate_key()
+  let key = casper.new_key()
 
-  let encrypted =
-    casper.encrypt_with(input, associated, key)
-    |> should.be_ok
+  let encrypted = casper.encrypt_with(input, associated, key)
 
   let decrypted =
     casper.decrypt_with(encrypted, associated, key)
@@ -43,11 +38,9 @@ pub fn basic_roundtrip_with_associated_data_test() {
 pub fn fails_when_decrypt_associated_data_differs_test() {
   let input = <<"casper test">>
   let associated = <<"casper associated">>
-  let key = casper.generate_key()
+  let key = casper.new_key()
 
-  let encrypted =
-    casper.encrypt_with(input, associated, key)
-    |> should.be_ok
+  let encrypted = casper.encrypt_with(input, associated, key)
 
   casper.decrypt_with(encrypted, <<"not this">>, key)
   |> should.be_error
@@ -57,15 +50,12 @@ pub fn fails_when_decrypt_associated_data_differs_test() {
 }
 
 pub fn fails_when_key_is_too_small_test() {
-  let input = <<"casper test">>
-  let key = crypto.strong_random_bytes(1)
-  casper.encrypt(input, key)
+  casper.from_bytes(<<"1">>)
   |> should.be_error
 }
 
 pub fn fails_when_key_is_too_large_test() {
-  let input = <<"casper test">>
-  let key = crypto.strong_random_bytes(33)
-  casper.encrypt(input, key)
+  <<"1234567891011121314151617181920">>
+  |> casper.from_bytes
   |> should.be_error
 }

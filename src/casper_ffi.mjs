@@ -2,16 +2,12 @@ import { BitArray } from "./gleam.mjs";
 import { Ok, Error } from "./gleam.mjs";
 import * as crypto from "node:crypto";
 
-function strongRandomBytes(n) {
-  return crypto.randomBytes(n);
-}
-
-export function generate_key() {
+export function strong_random_bytes(n) {
   return new BitArray(crypto.randomBytes(32));
 }
 
 export function encrypt_internal(input, key) {
-  const iv = strongRandomBytes(12);
+  const iv = crypto.randomBytes(12);
   const cipher = crypto.createCipheriv('chacha20-poly1305', key.rawBuffer, iv);
   let encrypted = cipher.update(input.rawBuffer);
   cipher.final();
@@ -20,7 +16,7 @@ export function encrypt_internal(input, key) {
 }
 
 export function encrypt_with_internal(input, associatedData, key) {
-  const iv = strongRandomBytes(12);
+  const iv = crypto.randomBytes(12);
   const cipher = crypto.createCipheriv('chacha20-poly1305', key.rawBuffer, iv);
   cipher.setAAD(associatedData.rawBuffer);
   let encrypted = cipher.update(input.rawBuffer);
