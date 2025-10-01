@@ -3,7 +3,6 @@ name: test
 on:
   push:
     branches:
-      - master
       - main
   pull_request:
 
@@ -11,13 +10,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@v1
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
         with:
-          otp-version: "27.1.2"
-          gleam-version: "1.12.0"
-          rebar3-version: "3"
-          # elixir-version: "1"
-      - run: gleam deps download
-      - run: gleam test
-      - run: gleam format --check src test
+          nix_path: nixpkgs=channel:nixos-unstable
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: download gleam dependencies
+        shell: 'nix develop -c bash -e {0}'
+        run: gleam deps download
+      - name: gleam test on erlang target
+        shell: 'nix develop -c bash -e {0}'
+        run: gleam test
+      - name: gleam test on nodejs target
+        shell: 'nix develop -c bash -e {0}'
+        run: gleam test -t javascript
+      - name: gleam check formatting
+        shell: 'nix develop -c bash -e {0}'
+        run: gleam format --check src test
