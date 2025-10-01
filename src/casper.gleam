@@ -3,6 +3,8 @@
 //// data AAD which is required for encryption and decryption.
 
 import gleam/bit_array
+import gleam/io
+import gleam/result
 
 /// A 32 byte secret key. It is encoded as a thunk to avoid leaking the key
 /// in logs.
@@ -32,6 +34,13 @@ pub fn from_bytes(input: BitArray) -> Result(SecretKey, Nil) {
     32 -> Ok(SecretKey(fn() { input }))
     _ -> Error(Nil)
   }
+}
+
+/// Given a base64 encoded `String`, try to convert it to a valid `SecretKey`.
+/// You are able to create one of these via `gleam run -m casper`.
+pub fn from_base64(input: String) -> Result(SecretKey, Nil) {
+  use decoded <- result.try(bit_array.base64_decode(input))
+  from_bytes(decoded)
 }
 
 @external(erlang, "casper_ffi", "encrypt_internal")
@@ -109,4 +118,14 @@ pub fn decrypt_with(
   case secret {
     SecretKey(thunk) -> decrypt_with_internal(input, associated_data, thunk())
   }
+}
+
+fn to_base64(secret: SecretKey) -> String {
+  let SecretKey(thunk) = secret
+  bit_array.base64_encode(thunk(), False)
+}
+
+pub fn main() {
+  let key = new_key()
+  io.println(to_base64(key))
 }

@@ -9,9 +9,14 @@ Casper is an opinionated symmetric cipher library which offers
 
 Note: the `javascript` target will not work in a browser environment. The `bun`
 and `deno` runtimes are not supported.
+
+## Get the library
+
 ```sh
 gleam add casper@2
 ```
+
+## Using the library
 
 ```gleam
 import casper
@@ -23,6 +28,15 @@ pub fn main() -> Nil {
   // ...
 }
 ```
+
+## Generating a key for your environment
+
+If you want to generate a key to store in your environment run `gleam run
+-m casper`. It will generate a base64 encoded string which you can read via
+[`envoy.get`][envoy-get]. Use `casper.from_base64` to turn the `String` into a
+`SecretKey` which you can use for cipher operations.
+
+## Hex documentation
 
 Further documentation can be found at <https://hexdocs.pm/casper>.
 
@@ -37,3 +51,4 @@ gleam test -t javascript # Run the tests on Node
 [chacha20-poly1305]: https://en.wikipedia.org/wiki/ChaCha20-Poly1305
 [erlang-crypto]: https://www.erlang.org/doc/apps/crypto/crypto.html
 [node-crypto]: https://nodejs.org/api/crypto.html
+[envoy-get]: https://hexdocs.pm/envoy/envoy.html#get
