@@ -66,3 +66,31 @@ pub fn fails_when_key_is_too_large_test() {
   |> casper.from_bytes
   |> should.be_error
 }
+
+pub fn successfully_decodes_base64_and_roundtrips_test() {
+  let input = <<"casper test">>
+  let key =
+    casper.from_base64("t21gSHtMqOkz8x/xKPP5LvZONXO0MAcnLR52FqNZvVI")
+    |> should.be_ok
+
+  let encrypted = casper.encrypt(input, key)
+
+  let decrypted =
+    casper.decrypt(encrypted, key)
+    |> should.be_ok
+
+  decrypted
+  |> should.equal(input)
+}
+
+pub fn fails_to_decode_base64_too_short_test() {
+  casper.from_base64("t21gSHtMqOkz8x/xKPP5LvZONXO0MAcn")
+  |> should.be_error
+}
+
+pub fn fails_to_decode_base64_too_long_test() {
+  casper.from_base64(
+    "t21gSHtMqOkz8x/xKPP5LvZONXO0MAcnLR52FqNZvVIAcnLR52FqNZvVI",
+  )
+  |> should.be_error
+}
